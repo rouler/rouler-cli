@@ -1,0 +1,13 @@
+{
+  "name": "rouler-cli",
+  "version": "1.0.0",
+  "description": "rouler cli for customized projects",
+  "bin": {
+    "rouler": "./bin/rouler.js"
+  },
+  "devDependencies": {
+    "commander": "^2.20.0",
+    "glob": "^7.1.4"
+  },
+  "dependencies": {}
+}
