@@ -5,6 +5,7 @@ const fs = require('fs');
 const glob = require('glob');
 const inquirer = require('inquirer');
 const commander = require('commander');
+const log = require('./log/log');
 const program = new commander.Command();
 
 program.version('0.0.1', '-v, --version')
@@ -33,7 +34,7 @@ function createRoot(target) {
         const entity = path.resolve(process.cwd(), path.join('.', name));
         return name === target && fs.statSync(entity).isDirectory();
     }).length > 0) {
-        console.log(`project ${target} exists`);
+        log.keyinfo(`project ${target} already exists!!!`);
         return;
     }
     createProject(path.basename(process.cwd()) === target ? '.' : target);
@@ -47,7 +48,8 @@ function createProject(root) {
         } else {
             // todo: current dir
         }
-        console.log(answer);
+        log.done();
+        log.keyinfo(answer);
     });
 }
 
