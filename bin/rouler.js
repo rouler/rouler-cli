@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
+const inquirer = require('inquirer');
 const commander = require('commander');
 const program = new commander.Command();
 
@@ -26,6 +27,7 @@ if (program.remove) {
     // todo:
 }
 
+let next = undefined;
 function createRoot(target) {
     if (glob.sync('*').filter(name => {
         const entity = path.resolve(process.cwd(), path.join('.', name));
@@ -34,14 +36,47 @@ function createRoot(target) {
         console.log(`project ${target} exists`);
         return;
     }
-    createDir(path.basename(process.cwd()) === target ? '.' : target);
+    createProject(path.basename(process.cwd()) === target ? '.' : target);
 }
 
 //create dir
-function createDir(root) {
-    if (root !== '.') {
-        fs.mkdirSync(root);
-    } else {
-        // todo: current dir
-    }
+function createProject(root) {
+    prompt().then((answer) => {
+        if (root !== '.') {
+            fs.mkdirSync(root);
+        } else {
+            // todo: current dir
+        }
+        console.log(answer);
+    });
+}
+
+function prompt() {
+    return inquirer.prompt([
+        {
+            name: 'projectName',
+            message: 'input your project name',
+            type: 'input',
+            default: "my-project"
+        },
+        {
+            name: 'description',
+            message: 'input description',
+            type: 'input',
+            default: "cli"
+        },
+        {
+            name: 'author',
+            message: 'input author',
+            type: 'input',
+            default: "someone"
+        },
+        {
+            name: 'author',
+            message: 'choose vue or react',
+            type: 'list',
+            default: "someone",
+            choices: ["vue", "react", "common"]
+        },
+    ])
 }
